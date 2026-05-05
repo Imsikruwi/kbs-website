@@ -63,8 +63,8 @@
                 <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     <a href="#" onclick="navigateTo('page-home'); setTimeout(() => document.getElementById('solutions').scrollIntoView(), 100); return false;" data-i18n="nav.solutions" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">Solutions</a>
                     <a href="#" onclick="navigateTo('page-home'); setTimeout(() => document.getElementById('methodology').scrollIntoView(), 100); return false;" data-i18n="nav.methodology" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">Methodology</a>
-                    <a href="#" data-i18n="nav.insights" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">Insights</a>
-                    <a href="#" data-i18n="nav.about" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">About Firm</a>
+                    <a href="#" onclick="navigateTo('page-insights'); return false;" data-i18n="nav.insights" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">Insights</a>
+                    <a href="#" onclick="navigateTo('page-about'); return false;" data-i18n="nav.about" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">About Firm</a>
                     
                     <button onclick="toggleLanguage()" class="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-red-600 transition-colors bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-full">
                         <i data-lucide="globe-2" class="w-4 h-4"></i>
@@ -93,8 +93,8 @@
             <div class="px-4 pt-2 pb-4 space-y-1">
                 <a href="#" onclick="toggleMobileMenu(); navigateTo('page-home'); setTimeout(() => document.getElementById('solutions').scrollIntoView(), 100); return false;" data-i18n="nav.solutions" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">Solutions</a>
                 <a href="#" onclick="toggleMobileMenu(); navigateTo('page-home'); setTimeout(() => document.getElementById('methodology').scrollIntoView(), 100); return false;" data-i18n="nav.methodology" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">Methodology</a>
-                <a href="#" data-i18n="nav.insights" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">Insights</a>
-                <a href="#" data-i18n="nav.about" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">About Firm</a>
+                <a href="#" onclick="toggleMobileMenu(); navigateTo('page-insights'); return false;" data-i18n="nav.insights" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">Insights</a>
+                <a href="#" onclick="toggleMobileMenu(); navigateTo('page-about'); return false;" data-i18n="nav.about" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">About Firm</a>
             </div>
         </div>
     </nav>
@@ -147,11 +147,19 @@
                     <p data-i18n="trust" class="text-center text-sm font-semibold text-gray-400 uppercase tracking-wider mb-6">
                         Trusted by Government Agencies & Enterprise Leaders
                     </p>
-                    <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                        <div class="flex items-center gap-2 font-bold text-xl text-gray-800"><i data-lucide="landmark" class="w-7 h-7"></i> <span>Ministry of Gov</span></div>
-                        <div class="flex items-center gap-2 font-bold text-xl text-gray-800"><i data-lucide="building-2" class="w-7 h-7"></i> <span>State-Owned Ent.</span></div>
-                        <div class="flex items-center gap-2 font-bold text-xl text-gray-800"><i data-lucide="globe" class="w-7 h-7"></i> <span>Global Corp</span></div>
-                        <div class="flex items-center gap-2 font-bold text-xl text-gray-800"><i data-lucide="briefcase" class="w-7 h-7"></i> <span>Financial Group</span></div>
+                    <div class="flex flex-wrap justify-center gap-8 md:gap-16">
+                        <div class="flex items-center gap-2 font-bold text-xl text-gray-900 opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
+                            <i data-lucide="landmark" class="w-7 h-7"></i> <span data-i18n="trustLogos.gov">Ministry of Gov</span>
+                        </div>
+                        <div class="flex items-center gap-2 font-bold text-xl text-gray-900 opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
+                            <i data-lucide="building-2" class="w-7 h-7"></i> <span data-i18n="trustLogos.soe">State-Owned Ent.</span>
+                        </div>
+                        <div class="flex items-center gap-2 font-bold text-xl text-gray-900 opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
+                            <i data-lucide="globe" class="w-7 h-7"></i> <span data-i18n="trustLogos.global">Global Corp</span>
+                        </div>
+                        <div class="flex items-center gap-2 font-bold text-xl text-gray-900 opacity-50 hover:opacity-100 transition-opacity duration-300 cursor-default">
+                            <i data-lucide="briefcase" class="w-7 h-7"></i> <span data-i18n="trustLogos.finance">Financial Group</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -431,6 +439,53 @@
             </div>
         </div>
 
+        <!-- ================= PAGE: INSIGHTS ================= -->
+        <div id="page-insights" class="page-content bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <button onclick="navigateTo('page-home')" class="mb-8 flex items-center text-red-600 font-medium hover:text-red-700">
+                    <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> <span data-i18n="pages.back">Back to Home</span>
+                </button>
+                <div class="w-16 h-16 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-8">
+                    <i data-lucide="lightbulb" class="w-8 h-8"></i>
+                </div>
+                <h1 data-i18n="nav.insights" class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Insights</h1>
+                <p data-i18n="pages.insights.p1" class="text-lg text-gray-600 leading-relaxed mb-8">
+                    Read our latest research, market analysis, and thought leadership on business strategy, digital transformation, and economic policies shaping the future of industries.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    <div class="p-6 border border-gray-200 rounded-xl hover:shadow-md transition-shadow cursor-pointer">
+                        <span class="text-sm font-bold text-red-600 mb-2 block">Whitepaper</span>
+                        <h4 data-i18n="pages.insights.a1" class="text-xl font-bold text-gray-900 mb-2">The Future of B2G Procurement</h4>
+                        <p data-i18n="pages.insights.a1Desc" class="text-gray-600 text-sm">Analyzing the shift towards transparent, digitized catalog systems in government tenders.</p>
+                    </div>
+                    <div class="p-6 border border-gray-200 rounded-xl hover:shadow-md transition-shadow cursor-pointer">
+                        <span class="text-sm font-bold text-red-600 mb-2 block">Case Study</span>
+                        <h4 data-i18n="pages.insights.a2" class="text-xl font-bold text-gray-900 mb-2">Agile Restructuring in State Enterprises</h4>
+                        <p data-i18n="pages.insights.a2Desc" class="text-gray-600 text-sm">How top SOEs are adapting to global supply chain shocks through agile methodologies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE: ABOUT ================= -->
+        <div id="page-about" class="page-content bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+                <button onclick="navigateTo('page-home')" class="mb-8 flex items-center text-red-600 font-medium hover:text-red-700">
+                    <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> <span data-i18n="pages.back">Back to Home</span>
+                </button>
+                <div class="w-16 h-16 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-8">
+                    <i data-lucide="users" class="w-8 h-8"></i>
+                </div>
+                <h1 data-i18n="nav.about" class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">About Firm</h1>
+                <p data-i18n="pages.about.p1" class="text-lg text-gray-600 leading-relaxed mb-6">
+                    PT. Konsultasi Bisnis Strategis (KBS) is a premier management consulting firm dedicated to empowering B2B, B2G, and G2B sectors. Founded on the principles of integrity, deep analytical rigor, and actionable strategy, we partner with top-tier enterprises and government bodies to drive monumental shifts.
+                </p>
+                <p data-i18n="pages.about.p2" class="text-lg text-gray-600 leading-relaxed mb-8">
+                    Our team comprises seasoned industry veterans, former policymakers, and cutting-edge technologists working in unison to solve the most pressing macro-level challenges our clients face.
+                </p>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer (Konsisten) -->
@@ -636,7 +691,6 @@
         // Handle Submit Forms
         document.getElementById('form-case-study').addEventListener('submit', (e) => {
             e.preventDefault(); // Mencegah reload halaman
-            // Disini biasanya kode untuk kirim data ke server (API)
             document.getElementById('input-name').value = '';
             document.getElementById('input-email').value = '';
             openModal('modal-success');
@@ -660,6 +714,7 @@
                 nav: { solutions: "Solutions", methodology: "Methodology", insights: "Insights", about: "About Firm", portal: "Client Portal" },
                 hero: { badge: "B2B, B2G & G2B Advisory", title1: "Strategic Partners for ", titleHighlight: "Transformation", title2: " & Governance.", subtitle: "Delivering data-driven solutions and deep industry expertise to optimize corporate performance and modernize public sector operations at scale.", cta1: "Schedule Executive Briefing", cta2: "Download Profile" },
                 trust: "Trusted by Government Agencies & Enterprise Leaders",
+                trustLogos: { gov: "Ministry of Gov", soe: "State-Owned Ent.", global: "Global Corp", finance: "Financial Group" },
                 capabilities: { title: "Core Capabilities", subtitle: "We solve complex, macro-level challenges across public and private sectors through specialized sectoral interventions.", cap1Title: "Management & Operations", cap1Desc: "Cost efficiency strategies, organizational restructuring, and supply chain optimization for large-scale enterprises.", cap2Title: "Digital Transformation", cap2Desc: "Guiding enterprise IT modernization, custom system architecture, and spatial data integration (GIS).", cap3Title: "Governance & Compliance", cap3Desc: "Business risk mitigation, internal audits, and aligning corporate operations with strict government regulations.", cap4Title: "Financial Advisory", cap4Desc: "Institutional market analysis, comprehensive due diligence, financial modeling, and M&A support.", learnMore: "Learn more" },
                 methodology: { title: "Our Executive Approach", subtitle: "Consulting isn't just about giving advice; it's about executing change. We utilize a highly structured, objective, and strictly confidential framework designed for enterprise scale.", step1Title: "Comprehensive Audit", step1Desc: "Deep-dive assessment of current operations, financial health, and technological infrastructure.", step2Title: "Strategic Formulation", step2Desc: "Developing bespoke blueprints aligned with stakeholder KPIs and regulatory requirements.", step3Title: "Tactical Execution", step3Desc: "Hands-on implementation, from system integration to change management.", formTitle: "Request a Case Study", formSubtitle: "See how we helped a Tier-1 state enterprise reduce procurement bottlenecks by 40%.", submitBtn: "Download PDF" },
                 footer: { desc: "Strategic consulting for transformative growth, governance, and technology integration in B2B, B2G, and G2B sectors.", firmCap: "Firm Capabilities", cap1: "Management Consulting", cap2: "Digital & IT Strategy", cap3: "Risk & Compliance", cap4: "M&A Advisory", procLegal: "Procurement & Legal", leg1: "Vendor Registration Info", leg2: "LPSE / e-Katalog Data", leg3: "Privacy Policy", leg4: "Terms of Engagement", hq: "Headquarters", rights: "All rights reserved.", confidential: "Strictly Confidential & Proprietary" },
@@ -673,7 +728,9 @@
                     vendor: { title: "Vendor Registration Info", p1: "Details and requirements for becoming a registered vendor or partner with PT. KBS. We maintain strict compliance and quality standards for all our supply chain partners." },
                     lpse: { title: "LPSE / e-Katalog Data", p1: "Official records of our public procurement participation, government catalog listings, and verified credentials for B2G engagements across multiple ministries." },
                     privacy: { title: "Privacy Policy", p1: "Information on how we collect, utilize, and rigorously protect your corporate data, proprietary information, and personal details under non-disclosure agreements." },
-                    terms: { title: "Terms of Engagement", p1: "Standard governing conditions, service level agreements (SLAs), and legal frameworks that dictate our consulting engagements with enterprise and public sector clients." }
+                    terms: { title: "Terms of Engagement", p1: "Standard governing conditions, service level agreements (SLAs), and legal frameworks that dictate our consulting engagements with enterprise and public sector clients." },
+                    insights: { p1: "Read our latest research, market analysis, and thought leadership on business strategy, digital transformation, and economic policies shaping the future of industries.", a1: "The Future of B2G Procurement", a1Desc: "Analyzing the shift towards transparent, digitized catalog systems in government tenders.", a2: "Agile Restructuring in State Enterprises", a2Desc: "How top SOEs are adapting to global supply chain shocks through agile methodologies." },
+                    about: { p1: "PT. Konsultasi Bisnis Strategis (KBS) is a premier management consulting firm dedicated to empowering B2B, B2G, and G2B sectors. Founded on the principles of integrity, deep analytical rigor, and actionable strategy, we partner with top-tier enterprises and government bodies to drive monumental shifts.", p2: "Our team comprises seasoned industry veterans, former policymakers, and cutting-edge technologists working in unison to solve the most pressing macro-level challenges our clients face." }
                 },
                 modals: {
                     booking: { title: "Schedule Executive Briefing", topic: "Topic of Discussion", date: "Preferred Date", time: "Time", submit: "Confirm Request" },
@@ -685,6 +742,7 @@
                 nav: { solutions: "Solusi", methodology: "Metodologi", insights: "Wawasan", about: "Tentang Firma", portal: "Portal Klien" },
                 hero: { badge: "Konsultasi B2B, B2G & G2B", title1: "Mitra Strategis untuk ", titleHighlight: "Transformasi", title2: " & Tata Kelola.", subtitle: "Memberikan solusi berbasis data dan keahlian industri mendalam untuk mengoptimalkan kinerja korporat dan memodernisasi operasi sektor publik dalam skala besar.", cta1: "Jadwalkan Sesi Eksekutif", cta2: "Unduh Profil" },
                 trust: "Dipercaya oleh Instansi Pemerintah & Pemimpin Perusahaan",
+                trustLogos: { gov: "Kementerian", soe: "BUMN", global: "Korporasi Global", finance: "Grup Finansial" },
                 capabilities: { title: "Kapabilitas Inti", subtitle: "Kami memecahkan tantangan makro yang kompleks di sektor publik dan swasta melalui intervensi sektoral yang spesifik.", cap1Title: "Manajemen & Operasi", cap1Desc: "Strategi efisiensi biaya, restrukturisasi organisasi, dan optimalisasi rantai pasok untuk perusahaan skala besar.", cap2Title: "Transformasi Digital", cap2Desc: "Pendampingan modernisasi IT korporat, arsitektur sistem kustom, dan integrasi data spasial (GIS).", cap3Title: "Tata Kelola & Kepatuhan", cap3Desc: "Mitigasi risiko bisnis, audit internal, dan penyelarasan operasi korporat dengan regulasi pemerintah yang ketat.", cap4Title: "Konsultasi Keuangan", cap4Desc: "Analisis pasar institusional, uji tuntas komprehensif, pemodelan keuangan, dan dukungan M&A.", learnMore: "Pelajari lebih lanjut" },
                 methodology: { title: "Pendekatan Eksekutif Kami", subtitle: "Konsultasi bukan sekadar memberi saran; ini tentang mengeksekusi perubahan. Kami menggunakan kerangka kerja yang terstruktur, objektif, dan sangat rahasia yang dirancang untuk skala enterprise.", step1Title: "Audit Komprehensif", step1Desc: "Penilaian mendalam terhadap operasi saat ini, kesehatan keuangan, dan infrastruktur teknologi.", step2Title: "Perumusan Strategis", step2Desc: "Mengembangkan cetak biru khusus yang diselaraskan dengan KPI pemangku kepentingan dan persyaratan regulasi.", step3Title: "Eksekusi Taktis", step3Desc: "Implementasi langsung, dari integrasi sistem hingga manajemen perubahan.", formTitle: "Minta Studi Kasus", formSubtitle: "Lihat bagaimana kami membantu BUMN Tier-1 mengurangi hambatan pengadaan hingga 40%.", submitBtn: "Unduh PDF" },
                 footer: { desc: "Konsultasi strategis untuk pertumbuhan transformatif, tata kelola, dan integrasi teknologi di sektor B2B, B2G, dan G2B.", firmCap: "Kapabilitas Firma", cap1: "Konsultasi Manajemen", cap2: "Strategi Digital & IT", cap3: "Risiko & Kepatuhan", cap4: "Konsultasi M&A", procLegal: "Pengadaan & Legal", leg1: "Info Registrasi Vendor", leg2: "Data LPSE / e-Katalog", leg3: "Kebijakan Privasi", leg4: "Syarat Keterlibatan", hq: "Kantor Pusat", rights: "Hak cipta dilindungi undang-undang.", confidential: "Sangat Rahasia & Hak Milik" },
@@ -698,7 +756,9 @@
                     vendor: { title: "Info Registrasi Vendor", p1: "Detail dan persyaratan untuk menjadi vendor atau mitra terdaftar di PT. KBS. Kami menjaga kepatuhan dan standar kualitas yang ketat untuk semua mitra rantai pasok kami." },
                     lpse: { title: "Data LPSE / e-Katalog", p1: "Catatan resmi tentang partisipasi pengadaan publik kami, daftar katalog pemerintah, dan kredensial terverifikasi untuk keterlibatan B2G di berbagai kementerian." },
                     privacy: { title: "Kebijakan Privasi", p1: "Informasi tentang bagaimana kami mengumpulkan, memanfaatkan, dan melindungi data perusahaan, informasi kepemilikan, dan detail pribadi Anda dengan ketat di bawah perjanjian kerahasiaan (NDA)." },
-                    terms: { title: "Syarat Keterlibatan", p1: "Kondisi standar yang mengatur, perjanjian tingkat layanan (SLA), dan kerangka kerja hukum yang mendikte keterlibatan konsultasi kami dengan klien perusahaan dan sektor publik." }
+                    terms: { title: "Syarat Keterlibatan", p1: "Kondisi standar yang mengatur, perjanjian tingkat layanan (SLA), dan kerangka kerja hukum yang mendikte keterlibatan konsultasi kami dengan klien perusahaan dan sektor publik." },
+                    insights: { p1: "Baca riset terbaru, analisis pasar, dan pemikiran terkemuka kami mengenai strategi bisnis, transformasi digital, dan kebijakan ekonomi yang membentuk masa depan industri.", a1: "Masa Depan Pengadaan B2G", a1Desc: "Menganalisis pergeseran menuju sistem katalog yang transparan dan terdigitalisasi dalam tender pemerintah.", a2: "Restrukturisasi Tangkas di BUMN", a2Desc: "Bagaimana BUMN terkemuka beradaptasi dengan guncangan rantai pasokan global melalui metodologi tangkas (agile)." },
+                    about: { p1: "PT. Konsultasi Bisnis Strategis (KBS) adalah firma konsultasi manajemen terkemuka yang berdedikasi untuk memberdayakan sektor B2B, B2G, dan G2B. Didirikan atas prinsip integritas, ketelitian analitis yang mendalam, dan strategi yang dapat ditindaklanjuti, kami bermitra dengan perusahaan kelas atas dan badan pemerintah untuk mendorong perubahan monumental.", p2: "Tim kami terdiri dari para veteran industri berpengalaman, mantan pembuat kebijakan, dan ahli teknologi mutakhir yang bekerja serempak untuk memecahkan tantangan tingkat makro paling mendesak yang dihadapi klien kami." }
                 },
                 modals: {
                     booking: { title: "Jadwalkan Sesi Eksekutif", topic: "Topik Diskusi", date: "Tanggal Pilihan", time: "Waktu", submit: "Konfirmasi Permintaan" },
