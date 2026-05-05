@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT. Konsultasi Bisnis Strategis</title>
+    <!-- Memuat Tailwind CSS langsung dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat Lucide Icons dari CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        /* Gaya tambahan untuk animasi mulus */
+        html { scroll-behavior: smooth; }
+        .chat-bubble-user { background-color: #dc2626; color: white; border-radius: 1rem 1rem 0 1rem; }
+        .chat-bubble-ai { background-color: white; border: 1px solid #e5e7eb; color: #1f2937; border-radius: 1rem 1rem 1rem 0; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        
+        /* Animasi Fade-in saat scroll */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-element.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 font-sans text-gray-800 selection:bg-red-100 selection:text-red-900">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/95 backdrop-blur-sm border-b border-gray-100 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0 flex items-center gap-3 group">
+                        <!-- Logo KBS SVG -->
+                        <div class="flex flex-col items-center justify-center">
+                            <svg viewBox="0 0 200 110" class="h-10 md:h-12 w-auto">
+                                <path d="M70,45 C80,25 120,20 150,35 C170,45 190,40 190,40 C180,55 150,50 130,45 C100,40 80,55 70,45 Z" fill="#1f2937"/>
+                                <path d="M85,40 C75,55 60,60 60,60" stroke="#1f2937" stroke-width="8" stroke-linecap="round" fill="none"/>
+                                <path d="M145,40 C155,55 170,60 170,60" stroke="#1f2937" stroke-width="8" stroke-linecap="round" fill="none"/>
+                                <path d="M135,25 C140,15 155,15 155,15" stroke="#1f2937" stroke-width="3" stroke-linecap="round" fill="none"/>
+                                <text x="25" y="105" font-family="Arial, sans-serif" font-weight="900" font-size="65" fill="#1f2937" letter-spacing="-2">K</text>
+                                <text x="85" y="105" font-family="Arial, sans-serif" font-weight="900" font-size="65" fill="#dc2626" letter-spacing="-2">B</text>
+                                <text x="145" y="105" font-family="Arial, sans-serif" font-weight="900" font-size="65" fill="#1f2937" letter-spacing="-2">S</text>
+                            </svg>
+                        </div>
+                        <span class="hidden md:block font-semibold text-xs leading-tight text-gray-600 border-l-2 border-gray-200 pl-3 group-hover:text-gray-900 transition-colors">
+                            PT. Konsultasi Bisnis<br/>Strategis
+                        </span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <a href="#solutions" data-i18n="nav.solutions" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">Solutions</a>
+                    <a href="#methodology" data-i18n="nav.methodology" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">Methodology</a>
+                    <a href="#insights" data-i18n="nav.insights" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">Insights</a>
+                    <a href="#about" data-i18n="nav.about" class="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors">About Firm</a>
+                    
+                    <button onclick="toggleLanguage()" class="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-red-600 transition-colors bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-full">
+                        <i data-lucide="globe-2" class="w-4 h-4"></i>
+                        <span id="lang-indicator-desktop">EN</span>
+                    </button>
+
+                    <button class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded text-sm font-medium transition-all shadow-sm hover:shadow-md flex items-center gap-2">
+                        <span data-i18n="nav.portal">Client Portal</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden space-x-4">
+                    <button onclick="toggleLanguage()" class="flex items-center gap-1.5 text-sm font-medium text-gray-600 bg-gray-100 px-2.5 py-1 rounded-full">
+                        <i data-lucide="globe-2" class="w-4 h-4"></i>
+                        <span id="lang-indicator-mobile">EN</span>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="text-gray-600 hover:text-gray-900 focus:outline-none p-2">
+                        <i id="mobile-menu-icon" data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <a href="#solutions" data-i18n="nav.solutions" onclick="toggleMobileMenu()" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">Solutions</a>
+                <a href="#methodology" data-i18n="nav.methodology" onclick="toggleMobileMenu()" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">Methodology</a>
+                <a href="#insights" data-i18n="nav.insights" onclick="toggleMobileMenu()" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">Insights</a>
+                <a href="#about" data-i18n="nav.about" onclick="toggleMobileMenu()" class="block px-3 py-3 text-base font-medium text-gray-700 hover:text-red-600 hover:bg-gray-50 rounded-md">About Firm</a>
+                <button class="w-full mt-4 bg-gray-900 text-white text-left px-4 py-3 text-base font-medium hover:bg-gray-800 rounded-md flex justify-between items-center">
+                    <span data-i18n="nav.portal">Client Portal</span>
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative pt-24 bg-gray-900 text-white overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-gray-900/60 z-10"></div>
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Corporate Building" class="w-full h-full object-cover opacity-30 mix-blend-luminosity" />
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32 lg:pt-36 lg:pb-40">
+            <div class="max-w-3xl fade-in-element">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold tracking-widest uppercase mb-6">
+                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                    <span data-i18n="hero.badge">B2B, B2G & G2B Advisory</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight">
+                    <span data-i18n="hero.title1">Strategic Partners for </span>
+                    <span data-i18n="hero.titleHighlight" class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-600">Transformation</span>
+                    <span data-i18n="hero.title2"> & Governance.</span>
+                </h1>
+                <p data-i18n="hero.subtitle" class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl leading-relaxed">
+                    Delivering data-driven solutions and deep industry expertise to optimize corporate performance and modernize public sector operations at scale.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="bg-red-600 hover:bg-red-700 text-white px-8 py-3.5 rounded font-medium transition-all shadow-lg shadow-red-600/20 flex items-center justify-center gap-2 group">
+                        <span data-i18n="hero.cta1">Schedule Executive Briefing</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    <button class="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-8 py-3.5 rounded font-medium transition-all backdrop-blur-sm flex items-center justify-center gap-2">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        <span data-i18n="hero.cta2">Download Profile</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Banner -->
+    <div class="bg-white border-b border-gray-200 py-8 relative z-20 -mt-8 mx-4 sm:mx-6 lg:mx-8 rounded-t-xl shadow-sm fade-in-element">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p data-i18n="trust" class="text-center text-sm font-semibold text-gray-400 uppercase tracking-wider mb-6">
+                Trusted by Government Agencies & Enterprise Leaders
+            </p>
+            <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex items-center gap-2 font-bold text-xl text-gray-800"><i data-lucide="landmark" class="w-7 h-7"></i> <span>Ministry of Gov</span></div>
+                <div class="flex items-center gap-2 font-bold text-xl text-gray-800"><i data-lucide="building-2" class="w-7 h-7"></i> <span>State-Owned Ent.</span></div>
+                <div class="flex items-center gap-2 font-bold text-xl text-gray-800"><i data-lucide="globe" class="w-7 h-7"></i> <span>Global Corp</span></div>
+                <div class="flex items-center gap-2 font-bold text-xl text-gray-800"><i data-lucide="briefcase" class="w-7 h-7"></i> <span>Financial Group</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Capabilities Section -->
+    <div id="solutions" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 fade-in-element">
+                <h2 data-i18n="capabilities.title" class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Core Capabilities</h2>
+                <p data-i18n="capabilities.subtitle" class="text-lg text-gray-600">
+                    We solve complex, macro-level challenges across public and private sectors through specialized sectoral interventions.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Capability 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group fade-in-element" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-red-50 text-red-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <i data-lucide="activity" class="w-7 h-7"></i>
+                    </div>
+                    <h3 data-i18n="capabilities.cap1Title" class="text-xl font-bold text-gray-900 mb-3">Management & Operations</h3>
+                    <p data-i18n="capabilities.cap1Desc" class="text-gray-600 text-sm leading-relaxed mb-6">
+                        Cost efficiency strategies, organizational restructuring, and supply chain optimization for large-scale enterprises.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-red-600 font-semibold text-sm hover:text-red-700">
+                        <span data-i18n="capabilities.learnMore">Learn more</span> <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Capability 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group fade-in-element" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-red-50 text-red-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <i data-lucide="globe" class="w-7 h-7"></i>
+                    </div>
+                    <h3 data-i18n="capabilities.cap2Title" class="text-xl font-bold text-gray-900 mb-3">Digital Transformation</h3>
+                    <p data-i18n="capabilities.cap2Desc" class="text-gray-600 text-sm leading-relaxed mb-6">
+                        Guiding enterprise IT modernization, custom system architecture, and spatial data integration (GIS).
+                    </p>
+                    <a href="#" class="inline-flex items-center text-red-600 font-semibold text-sm hover:text-red-700">
+                        <span data-i18n="capabilities.learnMore">Learn more</span> <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Capability 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group fade-in-element" style="transition-delay: 300ms;">
+                    <div class="w-14 h-14 bg-red-50 text-red-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <h3 data-i18n="capabilities.cap3Title" class="text-xl font-bold text-gray-900 mb-3">Governance & Compliance</h3>
+                    <p data-i18n="capabilities.cap3Desc" class="text-gray-600 text-sm leading-relaxed mb-6">
+                        Business risk mitigation, internal audits, and aligning corporate operations with strict government regulations.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-red-600 font-semibold text-sm hover:text-red-700">
+                        <span data-i18n="capabilities.learnMore">Learn more</span> <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Capability 4 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group fade-in-element" style="transition-delay: 400ms;">
+                    <div class="w-14 h-14 bg-red-50 text-red-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <i data-lucide="bar-chart-3" class="w-7 h-7"></i>
+                    </div>
+                    <h3 data-i18n="capabilities.cap4Title" class="text-xl font-bold text-gray-900 mb-3">Financial Advisory</h3>
+                    <p data-i18n="capabilities.cap4Desc" class="text-gray-600 text-sm leading-relaxed mb-6">
+                        Institutional market analysis, comprehensive due diligence, financial modeling, and M&A support.
+                    </p>
+                    <a href="#" class="inline-flex items-center text-red-600 font-semibold text-sm hover:text-red-700">
+                        <span data-i18n="capabilities.learnMore">Learn more</span> <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impact / Stats Section -->
+    <div class="bg-gray-900 py-20 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-element">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-gray-800">
+                <div class="text-center px-4">
+                    <p class="text-4xl md:text-5xl font-extrabold text-white mb-2">IDR 2.5T</p>
+                    <p data-i18n="stats.stat1" class="text-gray-400 text-sm font-medium uppercase tracking-wider">Assets Evaluated</p>
+                </div>
+                <div class="text-center px-4">
+                    <p class="text-4xl md:text-5xl font-extrabold text-white mb-2">35%</p>
+                    <p data-i18n="stats.stat2" class="text-gray-400 text-sm font-medium uppercase tracking-wider">Avg. Efficiency Gain</p>
+                </div>
+                <div class="text-center px-4">
+                    <p class="text-4xl md:text-5xl font-extrabold text-white mb-2">15+</p>
+                    <p data-i18n="stats.stat3" class="text-gray-400 text-sm font-medium uppercase tracking-wider">Gov. Projects Delivered</p>
+                </div>
+                <div class="text-center px-4">
+                    <p class="text-4xl md:text-5xl font-extrabold text-white mb-2">Zero</p>
+                    <p data-i18n="stats.stat4" class="text-gray-400 text-sm font-medium uppercase tracking-wider">Compliance Breaches</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Methodology Section -->
+    <div id="methodology" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-1/2 fade-in-element">
+                    <h2 data-i18n="methodology.title" class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">Our Executive Approach</h2>
+                    <p data-i18n="methodology.subtitle" class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        Consulting isn't just about giving advice; it's about executing change. We utilize a highly structured, objective, and strictly confidential framework designed for enterprise scale.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-900">1</div>
+                            <div>
+                                <h4 data-i18n="methodology.step1Title" class="text-xl font-bold text-gray-900">Comprehensive Audit</h4>
+                                <p data-i18n="methodology.step1Desc" class="text-gray-600 mt-1">Deep-dive assessment of current operations, financial health, and technological infrastructure.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-900">2</div>
+                            <div>
+                                <h4 data-i18n="methodology.step2Title" class="text-xl font-bold text-gray-900">Strategic Formulation</h4>
+                                <p data-i18n="methodology.step2Desc" class="text-gray-600 mt-1">Developing bespoke blueprints aligned with stakeholder KPIs and regulatory requirements.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 flex items-center justify-center font-bold text-red-600">3</div>
+                            <div>
+                                <h4 data-i18n="methodology.step3Title" class="text-xl font-bold text-gray-900">Tactical Execution</h4>
+                                <p data-i18n="methodology.step3Desc" class="text-gray-600 mt-1">Hands-on implementation, from system integration to change management.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 w-full fade-in-element" style="transition-delay: 200ms;">
+                    <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-red-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 translate-x-1/2 -translate-y-1/2"></div>
+                        <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 -translate-x-1/2 translate-y-1/2"></div>
+                        
+                        <h3 data-i18n="methodology.formTitle" class="text-2xl font-bold text-gray-900 mb-6 relative z-10">Request a Case Study</h3>
+                        <p data-i18n="methodology.formSubtitle" class="text-gray-600 mb-8 relative z-10">See how we helped a Tier-1 state enterprise reduce procurement bottlenecks by 40%.</p>
+                        
+                        <form class="space-y-4 relative z-10" onsubmit="event.preventDefault()">
+                            <input type="text" id="input-name" placeholder="Full Name" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all" />
+                            <input type="text" id="input-email" placeholder="Corporate/Agency Email" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none transition-all" />
+                            <button data-i18n="methodology.submitBtn" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 rounded-lg transition-colors">
+                                Download PDF
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 text-gray-400 py-16 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 fade-in-element">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="mb-6 flex items-center gap-2">
+                        <!-- Tiny Footer Logo SVG -->
+                        <div class="flex flex-col items-center justify-center opacity-80">
+                            <svg viewBox="0 0 200 110" class="h-8 w-auto">
+                                <path d="M70,45 C80,25 120,20 150,35 C170,45 190,40 190,40 C180,55 150,50 130,45 C100,40 80,55 70,45 Z" fill="#ffffff"/>
+                                <path d="M85,40 C75,55 60,60 60,60" stroke="#ffffff" stroke-width="8" stroke-linecap="round" fill="none"/>
+                                <path d="M145,40 C155,55 170,60 170,60" stroke="#ffffff" stroke-width="8" stroke-linecap="round" fill="none"/>
+                                <path d="M135,25 C140,15 155,15 155,15" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none"/>
+                                <text x="25" y="105" font-family="Arial, sans-serif" font-weight="900" font-size="65" fill="#ffffff" letter-spacing="-2">K</text>
+                                <text x="85" y="105" font-family="Arial, sans-serif" font-weight="900" font-size="65" fill="#dc2626" letter-spacing="-2">B</text>
+                                <text x="145" y="105" font-family="Arial, sans-serif" font-weight="900" font-size="65" fill="#ffffff" letter-spacing="-2">S</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <p data-i18n="footer.desc" class="text-sm mb-6">
+                        Strategic consulting for transformative growth, governance, and technology integration in B2B, B2G, and G2B sectors.
+                    </p>
+                    <div class="flex space-x-4">
+                        <div class="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer flex items-center justify-center transition-colors">in</div>
+                        <div class="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer flex items-center justify-center transition-colors">X</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 data-i18n="footer.firmCap" class="text-white font-semibold mb-6">Firm Capabilities</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" data-i18n="footer.cap1" class="hover:text-red-400 transition-colors">Management Consulting</a></li>
+                        <li><a href="#" data-i18n="footer.cap2" class="hover:text-red-400 transition-colors">Digital & IT Strategy</a></li>
+                        <li><a href="#" data-i18n="footer.cap3" class="hover:text-red-400 transition-colors">Risk & Compliance</a></li>
+                        <li><a href="#" data-i18n="footer.cap4" class="hover:text-red-400 transition-colors">M&A Advisory</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 data-i18n="footer.procLegal" class="text-white font-semibold mb-6">Procurement & Legal</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#" data-i18n="footer.leg1" class="hover:text-red-400 transition-colors">Vendor Registration Info</a></li>
+                        <li><a href="#" data-i18n="footer.leg2" class="hover:text-red-400 transition-colors">LPSE / e-Katalog Data</a></li>
+                        <li><a href="#" data-i18n="footer.leg3" class="hover:text-red-400 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.leg4" class="hover:text-red-400 transition-colors">Terms of Engagement</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 data-i18n="footer.hq" class="text-white font-semibold mb-6">Headquarters</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-gray-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Office 8, 12th floor,<br/>Jl. Senopati No. 8b,<br/>Jakarta, 12190, Indonesia</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-gray-500 flex-shrink-0"></i>
+                            <span>partners@konsultasibisnisstrategis.com</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="phone" class="w-5 h-5 text-gray-500 flex-shrink-0"></i>
+                            <span>+62 21 2933 3122</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 text-sm flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2026 PT. Konsultasi Bisnis Strategis. <span data-i18n="footer.rights">All rights reserved.</span></p>
+                <p data-i18n="footer.confidential" class="mt-2 md:mt-0">Strictly Confidential & Proprietary</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chat Widget -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="chat-window" class="hidden bg-white rounded-2xl shadow-2xl w-80 sm:w-96 mb-4 border border-gray-200 overflow-hidden flex flex-col h-[500px] max-h-[80vh] transition-all duration-300 transform origin-bottom-right">
+            <div class="bg-gray-900 p-4 flex justify-between items-center text-white">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="message-square" class="w-5 h-5 text-red-500"></i>
+                    <span id="chat-title" class="font-semibold text-sm">AI Business Consultant</span>
+                </div>
+                <button onclick="toggleChat()" class="text-gray-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
+                <!-- Chat messages will be dynamically added here -->
+            </div>
+
+            <form id="chat-form" class="p-3 bg-white border-t border-gray-100 flex gap-2">
+                <input type="text" id="chat-input" placeholder="Ask about strategy..." class="flex-1 bg-gray-100 border-transparent rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 focus:bg-white transition-all" />
+                <button type="submit" id="chat-submit" class="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                    <i data-lucide="send" class="w-4 h-4 ml-0.5"></i>
+                </button>
+            </form>
+        </div>
+        
+        <button onclick="toggleChat()" class="bg-gray-900 hover:bg-gray-800 text-white p-4 rounded-full shadow-xl shadow-red-600/20 transition-transform hover:scale-105 flex items-center justify-center relative">
+            <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-white"></div>
+            <i id="chat-fab-icon" data-lucide="message-square" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. TRANSLATION DATA ---
+        const translations = {
+            en: {
+                nav: { solutions: "Solutions", methodology: "Methodology", insights: "Insights", about: "About Firm", portal: "Client Portal" },
+                hero: {
+                    badge: "B2B, B2G & G2B Advisory", title1: "Strategic Partners for ", titleHighlight: "Transformation", title2: " & Governance.",
+                    subtitle: "Delivering data-driven solutions and deep industry expertise to optimize corporate performance and modernize public sector operations at scale.",
+                    cta1: "Schedule Executive Briefing", cta2: "Download Profile"
+                },
+                trust: "Trusted by Government Agencies & Enterprise Leaders",
+                capabilities: {
+                    title: "Core Capabilities", subtitle: "We solve complex, macro-level challenges across public and private sectors through specialized sectoral interventions.",
+                    cap1Title: "Management & Operations", cap1Desc: "Cost efficiency strategies, organizational restructuring, and supply chain optimization for large-scale enterprises.",
+                    cap2Title: "Digital Transformation", cap2Desc: "Guiding enterprise IT modernization, custom system architecture, and spatial data integration (GIS).",
+                    cap3Title: "Governance & Compliance", cap3Desc: "Business risk mitigation, internal audits, and aligning corporate operations with strict government regulations.",
+                    cap4Title: "Financial Advisory", cap4Desc: "Institutional market analysis, comprehensive due diligence, financial modeling, and M&A support.",
+                    learnMore: "Learn more"
+                },
+                stats: { stat1: "Assets Evaluated", stat2: "Avg. Efficiency Gain", stat3: "Gov. Projects Delivered", stat4: "Compliance Breaches" },
+                methodology: {
+                    title: "Our Executive Approach", subtitle: "Consulting isn't just about giving advice; it's about executing change. We utilize a highly structured, objective, and strictly confidential framework designed for enterprise scale.",
+                    step1Title: "Comprehensive Audit", step1Desc: "Deep-dive assessment of current operations, financial health, and technological infrastructure.",
+                    step2Title: "Strategic Formulation", step2Desc: "Developing bespoke blueprints aligned with stakeholder KPIs and regulatory requirements.",
+                    step3Title: "Tactical Execution", step3Desc: "Hands-on implementation, from system integration to change management.",
+                    formTitle: "Request a Case Study", formSubtitle: "See how we helped a Tier-1 state enterprise reduce procurement bottlenecks by 40%.",
+                    submitBtn: "Download PDF"
+                },
+                footer: {
+                    desc: "Strategic consulting for transformative growth, governance, and technology integration in B2B, B2G, and G2B sectors.",
+                    firmCap: "Firm Capabilities", cap1: "Management Consulting", cap2: "Digital & IT Strategy", cap3: "Risk & Compliance", cap4: "M&A Advisory",
+                    procLegal: "Procurement & Legal", leg1: "Vendor Registration Info", leg2: "LPSE / e-Katalog Data", leg3: "Privacy Policy", leg4: "Terms of Engagement",
+                    hq: "Headquarters", rights: "All rights reserved.", confidential: "Strictly Confidential & Proprietary"
+                },
+                ai: { title: "AI Business Consultant", placeholder: "Ask about strategy, governance, or operations...", welcome: "Hello! I am the KBS AI Consultant. How can I assist your business today?" }
+            },
+            id: {
+                nav: { solutions: "Solusi", methodology: "Metodologi", insights: "Wawasan", about: "Tentang Firma", portal: "Portal Klien" },
+                hero: {
+                    badge: "Konsultasi B2B, B2G & G2B", title1: "Mitra Strategis untuk ", titleHighlight: "Transformasi", title2: " & Tata Kelola.",
+                    subtitle: "Memberikan solusi berbasis data dan keahlian industri mendalam untuk mengoptimalkan kinerja korporat dan memodernisasi operasi sektor publik dalam skala besar.",
+                    cta1: "Jadwalkan Sesi Eksekutif", cta2: "Unduh Profil"
+                },
+                trust: "Dipercaya oleh Instansi Pemerintah & Pemimpin Perusahaan",
+                capabilities: {
+                    title: "Kapabilitas Inti", subtitle: "Kami memecahkan tantangan makro yang kompleks di sektor publik dan swasta melalui intervensi sektoral yang spesifik.",
+                    cap1Title: "Manajemen & Operasi", cap1Desc: "Strategi efisiensi biaya, restrukturisasi organisasi, dan optimalisasi rantai pasok untuk perusahaan skala besar.",
+                    cap2Title: "Transformasi Digital", cap2Desc: "Pendampingan modernisasi IT korporat, arsitektur sistem kustom, dan integrasi data spasial (GIS).",
+                    cap3Title: "Tata Kelola & Kepatuhan", cap3Desc: "Mitigasi risiko bisnis, audit internal, dan penyelarasan operasi korporat dengan regulasi pemerintah yang ketat.",
+                    cap4Title: "Konsultasi Keuangan", cap4Desc: "Analisis pasar institusional, uji tuntas komprehensif, pemodelan keuangan, dan dukungan M&A.",
+                    learnMore: "Pelajari lebih lanjut"
+                },
+                stats: { stat1: "Aset Dievaluasi", stat2: "Rata-rata Efisiensi", stat3: "Proyek Pemerintah", stat4: "Pelanggaran Kepatuhan" },
+                methodology: {
+                    title: "Pendekatan Eksekutif Kami", subtitle: "Konsultasi bukan sekadar memberi saran; ini tentang mengeksekusi perubahan. Kami menggunakan kerangka kerja yang terstruktur, objektif, dan sangat rahasia yang dirancang untuk skala enterprise.",
+                    step1Title: "Audit Komprehensif", step1Desc: "Penilaian mendalam terhadap operasi saat ini, kesehatan keuangan, dan infrastruktur teknologi.",
+                    step2Title: "Perumusan Strategis", step2Desc: "Mengembangkan cetak biru khusus yang diselaraskan dengan KPI pemangku kepentingan dan persyaratan regulasi.",
+                    step3Title: "Eksekusi Taktis", step3Desc: "Implementasi langsung, dari integrasi sistem hingga manajemen perubahan.",
+                    formTitle: "Minta Studi Kasus", formSubtitle: "Lihat bagaimana kami membantu BUMN Tier-1 mengurangi hambatan pengadaan hingga 40%.",
+                    submitBtn: "Unduh PDF"
+                },
+                footer: {
+                    desc: "Konsultasi strategis untuk pertumbuhan transformatif, tata kelola, dan integrasi teknologi di sektor B2B, B2G, dan G2B.",
+                    firmCap: "Kapabilitas Firma", cap1: "Konsultasi Manajemen", cap2: "Strategi Digital & IT", cap3: "Risiko & Kepatuhan", cap4: "Konsultasi M&A",
+                    procLegal: "Pengadaan & Legal", leg1: "Info Registrasi Vendor", leg2: "Data LPSE / e-Katalog", leg3: "Kebijakan Privasi", leg4: "Syarat Keterlibatan",
+                    hq: "Kantor Pusat", rights: "Hak cipta dilindungi undang-undang.", confidential: "Sangat Rahasia & Hak Milik"
+                },
+                ai: { title: "Konsultan Bisnis AI", placeholder: "Tanyakan tentang strategi, tata kelola, atau operasional...", welcome: "Halo! Saya adalah Konsultan AI KBS. Bagaimana saya dapat membantu bisnis Anda hari ini?" }
+            }
+        };
+
+        let currentLang = 'en';
+
+        function getTranslation(path) {
+            const keys = path.split('.');
+            let value = translations[currentLang];
+            for (const key of keys) {
+                if (value[key]) value = value[key];
+                else return path; // fallback
+            }
+            return value;
+        }
+
+        function applyTranslations() {
+            // Update simple text elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.innerText = getTranslation(el.getAttribute('data-i18n'));
+            });
+            // Update placeholders
+            document.getElementById('input-name').placeholder = currentLang === 'en' ? 'Full Name' : 'Nama Lengkap';
+            document.getElementById('input-email').placeholder = currentLang === 'en' ? 'Corporate/Agency Email' : 'Email Perusahaan/Instansi';
+            document.getElementById('chat-input').placeholder = translations[currentLang].ai.placeholder;
+            document.getElementById('chat-title').innerText = translations[currentLang].ai.title;
+            document.getElementById('lang-indicator-desktop').innerText = currentLang === 'en' ? 'EN' : 'ID';
+            document.getElementById('lang-indicator-mobile').innerText = currentLang === 'en' ? 'EN' : 'ID';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'id' : 'en';
+            applyTranslations();
+            // Reset chat to update welcome message language (only if user hasn't chatted)
+            if(document.getElementById('chat-messages').children.length <= 1) {
+                document.getElementById('chat-messages').innerHTML = '';
+                addChatMessage('ai', translations[currentLang].ai.welcome);
+            }
+        }
+
+        // --- 2. UI INTERACTIONS ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            // Ganti ikon menu/x
+            if(menu.classList.contains('hidden')) {
+                icon.setAttribute('data-lucide', 'menu');
+            } else {
+                icon.setAttribute('data-lucide', 'x');
+            }
+            lucide.createIcons();
+        }
+
+        // Scroll effect on Navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.remove('bg-white/95', 'backdrop-blur-sm', 'py-4');
+                nav.classList.add('bg-white', 'shadow-md', 'py-2');
+            } else {
+                nav.classList.add('bg-white/95', 'backdrop-blur-sm', 'py-4');
+                nav.classList.remove('bg-white', 'shadow-md', 'py-2');
+            }
+        });
+
+        // --- 3. AI CHATBOT LOGIC ---
+        let isChatOpen = false;
+        let isAiLoading = false;
+
+        function toggleChat() {
+            isChatOpen = !isChatOpen;
+            const chatWindow = document.getElementById('chat-window');
+            const fabIcon = document.getElementById('chat-fab-icon');
+            
+            if (isChatOpen) {
+                chatWindow.classList.remove('hidden');
+                fabIcon.setAttribute('data-lucide', 'x');
+            } else {
+                chatWindow.classList.add('hidden');
+                fabIcon.setAttribute('data-lucide', 'message-square');
+            }
+            lucide.createIcons();
+        }
+
+        function addChatMessage(role, text) {
+            const container = document.getElementById('chat-messages');
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = `max-w-[85%] p-3 text-sm ${role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'}`;
+            bubble.innerText = text;
+            
+            wrapper.appendChild(bubble);
+            container.appendChild(wrapper);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showLoading() {
+            const container = document.getElementById('chat-messages');
+            const wrapper = document.createElement('div');
+            wrapper.id = 'chat-loading';
+            wrapper.className = 'flex justify-start';
+            wrapper.innerHTML = `
+                <div class="max-w-[85%] p-3 text-sm chat-bubble-ai flex items-center gap-2">
+                    <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-red-600"></i>
+                    <span class="text-gray-500 italic">Typing...</span>
+                </div>
+            `;
+            container.appendChild(wrapper);
+            lucide.createIcons();
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function removeLoading() {
+            const loading = document.getElementById('chat-loading');
+            if(loading) loading.remove();
+        }
+
+        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            const submitBtn = document.getElementById('chat-submit');
+            
+            if (!text || isAiLoading) return;
+
+            addChatMessage('user', text);
+            input.value = '';
+            isAiLoading = true;
+            submitBtn.disabled = true;
+            showLoading();
+
+            const apiKey = ""; // API Key disuntikkan secara otomatis dari lingkungan eksekusi
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            
+            const systemInstruction = `Anda adalah Asisten AI dari PT. Konsultasi Bisnis Strategis (KBS). 
+            Tugas Anda adalah menjawab pertanyaan terkait strategi bisnis, manajemen, transformasi digital, tata kelola (GRC), dan konsultasi keuangan.
+            Gunakan nada bahasa yang sangat profesional, korporat, analitis, dan solutif.
+            Jawablah dalam bahasa ${currentLang === 'en' ? 'Inggris' : 'Indonesia'}. Jangan pernah menggunakan tag markdown untuk header besar di dalam chat window kecil.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: text }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            let aiResponse = "Maaf, layanan AI sedang tidak tersedia saat ini. Silakan coba lagi nanti.";
+
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error('API Error');
+                    const data = await response.json();
+                    aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || aiResponse;
+                    break;
+                } catch (error) {
+                    if (i === 4) break;
+                    await new Promise(res => setTimeout(res, delays[i]));
+                }
+            }
+
+            removeLoading();
+            addChatMessage('ai', aiResponse);
+            isAiLoading = false;
+            submitBtn.disabled = false;
+        });
+
+        // --- 4. INITIALIZATION ---
+        window.onload = () => {
+            // Aktifkan terjemahan awal
+            applyTranslations();
+            // Inisialisasi ikon Lucide
+            lucide.createIcons();
+            // Tampilkan pesan sapaan AI
+            addChatMessage('ai', translations[currentLang].ai.welcome);
+            
+            // Inisialisasi Intersection Observer untuk animasi scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Animasi hanya berjalan satu kali
+                    }
+                });
+            }, observerOptions);
+
+            // Observasi semua elemen dengan class fade-in-element
+            document.querySelectorAll('.fade-in-element').forEach(el => {
+                observer.observe(el);
+            });
+        };
+    </script>
+</body>
+</html>
