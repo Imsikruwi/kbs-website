@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT Konsultasi Bisnis Strategis (KBS)</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        // Force scroll to top on reload
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#E31837',
+                            black: '#1A1A1A',
+                            gray: '#F3F4F6',
+                            dark: '#0F172A'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-bg {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        /* Animasi Fade In Up */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-element.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animasi Slide dari Kiri ke Kanan yang Halus */
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Preloader Animation */
+        .logo-preloader {
+            animation: elegantPulse 2s infinite ease-in-out;
+        }
+        @keyframes elegantPulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-white overflow-hidden" id="body-content">
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[9999] bg-brand-dark flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out">
+        <h2 class="text-2xl md:text-4xl font-serif font-bold text-white tracking-wider logo-preloader text-center px-4">
+            PT Konsultasi Bisnis Strategis
+        </h2>
+        <div class="mt-6 w-48 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="h-full bg-brand-red w-full origin-left animate-[pulse_0.5s_ease-in-out_infinite]"></div>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="fixed w-full top-0 bg-white shadow-md z-50 transition-all duration-500" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24 transition-all duration-500" id="header-container">
+                
+                <!-- Left: Locale Toggle Button (Single Button) -->
+                <div class="flex items-center">
+                    <button onclick="toggleLanguage()" class="flex items-center space-x-2 bg-gray-100 hover:bg-red-50 text-gray-700 hover:text-brand-red px-3 py-1.5 rounded-full transition-all duration-300 group">
+                        <i data-lucide="globe" class="w-4 h-4 group-hover:rotate-12 transition-transform duration-300"></i>
+                        <span id="lang-btn-text" class="text-xs font-bold tracking-wider">EN</span>
+                    </button>
+                </div>
+
+                <!-- Center: Navigation (Hidden on mobile) -->
+                <nav class="hidden md:flex space-x-1 relative items-center" id="desktop-nav">
+                    <!-- Sliding Background Indicator -->
+                    <div id="nav-indicator" class="absolute top-0 left-0 bg-brand-red rounded-md transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-0 opacity-0 pointer-events-none"></div>
+                    
+                    <a href="#home" class="relative z-10 px-4 py-1.5 text-sm text-gray-700 font-medium hover:text-brand-red transition-colors duration-500" data-i18n="nav-home">Home</a>
+                    <a href="#about" class="relative z-10 px-4 py-1.5 text-sm text-gray-700 font-medium hover:text-brand-red transition-colors duration-500" data-i18n="nav-about">About Us</a>
+                    <a href="#expertise" class="relative z-10 px-4 py-1.5 text-sm text-gray-700 font-medium hover:text-brand-red transition-colors duration-500" data-i18n="nav-expertise">Our Expertise</a>
+                    <a href="#partners" class="relative z-10 px-4 py-1.5 text-sm text-gray-700 font-medium hover:text-brand-red transition-colors duration-500" data-i18n="nav-partners">Partners</a>
+                    <a href="#contact" class="relative z-10 px-4 py-1.5 text-sm text-gray-700 font-medium hover:text-brand-red transition-colors duration-500" data-i18n="nav-contact">Contact</a>
+                </nav>
+
+                <!-- Right: Header Logo with Text -->
+                <div class="flex-shrink-0 flex items-center h-full py-2">
+                    <a href="#home" class="flex items-center space-x-3 group text-left">
+                        <img id="header-logo" class="h-16 w-auto object-contain transition-all duration-500" src="KBS-logo.png" alt="PT. KBS Logo" onerror="this.src='https://via.placeholder.com/150x60?text=PT.+KBS';">
+                        <div class="hidden sm:block border-l-2 border-gray-300 pl-3 h-full flex flex-col justify-center transition-all duration-500" id="header-text-container">
+                            <h1 id="header-text" class="text-sm font-bold leading-tight text-gray-800 transition-all duration-500" style="font-family: 'Poppins', sans-serif;">PT. Konsultasi<br>Bisnis Strategis</h1>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-brand-red focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 transition-all duration-300">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#home" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-home">Home</a>
+                <a href="#about" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-about">About Us</a>
+                <a href="#expertise" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-expertise">Our Expertise</a>
+                <a href="#partners" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-partners">Partners</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-contact">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24">
+        
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg relative flex items-center min-h-[80vh]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20">
+                <div class="max-w-3xl">
+                    <!-- Title with reveal-left animation -->
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-serif text-white font-bold leading-tight mb-6" data-i18n="hero-title">
+                        Empowering Your <span class="text-brand-red">Strategic</span> Vision in Indonesia
+                    </h1>
+                    <div class="w-20 h-1 bg-brand-red mb-8"></div>
+                    <p class="text-lg md:text-xl text-gray-200 mb-6 leading-relaxed text-justify" data-i18n="hero-desc-1">
+                        PT Konsultasi Bisnis Strategis (PT. KBS) is a premier, Indonesian-owned consultancy firm dedicated to navigating complex strategic issues at the highest echelons of business. We serve as a trusted advisor to both governmental and non-governmental entities, bridging gaps and unlocking potential within the dynamic Indonesian market.
+                    </p>
+                    <p class="text-md text-gray-300 mb-6 leading-relaxed text-justify" data-i18n="hero-desc-2">
+                        KBS is active in the fields of strategic business consultancy, strategic economic consultancy (including banking e.g. Credit Investment) and strategic political consultancy.
+                    </p>
+                    <p class="text-md text-gray-300 mb-6 leading-relaxed text-justify" data-i18n="hero-desc-3">
+                        Our focus is to support foreign Companies, mainly multi-national Companies, that are leading in their business sector in the world market.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="w-full md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Formal Corporate Boardroom" class="rounded-lg shadow-xl w-full object-cover h-[450px]">
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <h2 class="text-sm font-bold tracking-wider text-brand-red uppercase mb-2" data-i18n="about-subtitle">Who We Are</h2>
+                        <h3 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6" data-i18n="about-title">About Us</h3>
+                        <p class="text-gray-600 leading-relaxed text-lg text-justify" data-i18n="about-desc">
+                            Operational since January 1, 2025, PT. KBS was founded on the principles of excellence, integrity, and profound market insight. Our firm is led by a distinguished board of Shareholders and Directors, all of whom possess advanced degrees from world-renowned universities in the United States and the United Kingdom. This exceptional blend of global perspective and deep local expertise empowers us to deliver world-class advisory services tailored to the unique landscape of Indonesia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Expertise Section -->
+        <section id="expertise" class="py-20 bg-brand-gray">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-sm font-bold tracking-wider text-brand-red uppercase mb-2" data-i18n="expertise-subtitle">What We Do</h2>
+                    <h3 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6" data-i18n="expertise-title">Our Expertise</h3>
+                    <p class="text-gray-600 leading-relaxed text-lg text-justify" data-i18n="expertise-desc">
+                        We are a market-independent consultancy, providing strategic advisory services across a diverse spectrum of business fields. Our mission is to support both domestic Indonesian enterprises and international corporations, leading in their business field with global existence, looking to thrive in the Indonesian market. Our key sectors of expertise include, but are not limited to:
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic Grid Items -->
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(1, 'leaf')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="leaf"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-1">Agriculture</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(2, 'wheat')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="wheat"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-2">Food Supply Industry</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(3, 'microscope')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="microscope"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-3">Animal Nutrition</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(4, 'ship')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="ship"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-4">Fishery & Maritime</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(5, 'building-2')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="building-2"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-5">Public Infrastructure</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(6, 'scale')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="scale"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-6">Law & Legal Services</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(7, 'landmark')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="landmark"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-7">Banking & Financial Services</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(8, 'cpu')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="cpu"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-8">Information Technology (IT), & Internet of Things (IoT)</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(9, 'monitor-smartphone')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="monitor-smartphone"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-9">Digital Transformation, Professional Web & Software Solutions</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(10, 'radio-tower')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="radio-tower"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-10">Telecommunications</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(11, 'fuel')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="fuel"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-11">Oil & Gas</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                    <div class="h-full">
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 cursor-pointer transition-all duration-300 flex items-center space-x-4 group h-full" onclick="openModal(12, 'shield')">
+                            <div class="p-3 bg-red-50 text-brand-red rounded-lg group-hover:bg-brand-red group-hover:text-white transition-colors"><i data-lucide="shield"></i></div>
+                            <div class="flex-1"><h4 class="text-lg font-semibold text-gray-900 leading-tight" data-i18n="sec-12">Defense & Military Equipment</h4></div>
+                            <div class="text-gray-300 group-hover:text-brand-red transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners Section -->
+        <section id="partners" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-brand-dark text-white rounded-2xl p-8 md:p-16 shadow-2xl relative overflow-hidden">
+                    <!-- Decor background -->
+                    <div class="absolute top-0 right-0 -mr-20 -mt-20 opacity-10 pointer-events-none">
+                        <i data-lucide="scale" class="w-96 h-96"></i>
+                    </div>
+                    
+                    <div class="relative z-10 max-w-4xl">
+                        <h2 class="text-sm font-bold tracking-wider text-brand-red uppercase mb-2" data-i18n="partner-subtitle">Collaboration</h2>
+                        <h3 class="text-3xl md:text-4xl font-serif font-bold mb-6" data-i18n="partner-title">Our Strategic Partner (Legal Services)</h3>
+                        <p class="text-gray-300 leading-relaxed text-lg mb-8 text-justify" data-i18n="partner-desc">
+                            To provide comprehensive and seamless solutions for our clients, PT. KBS is proud to partner with the Indonesian Firm <a href="https://nhplaw.com" target="_blank" class="text-white font-bold hover:underline transition-all">Nusantara Harman & Partners (NHP)</a>. This esteemed law firm provides extensive legal coverage for both Indonesian and foreign companies operating in the region. Their highly specialized services include:
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-4">
+                                <div class="mt-1 bg-brand-red rounded-full p-1"><i data-lucide="check" class="w-4 h-4 text-white"></i></div>
+                                <p class="text-gray-200 text-lg" data-i18n="srv-1">Corporate Due Diligence & In-depth Investigations</p>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="mt-1 bg-brand-red rounded-full p-1"><i data-lucide="check" class="w-4 h-4 text-white"></i></div>
+                                <p class="text-gray-200 text-lg" data-i18n="srv-2">Strategic Conflict Management of any kind</p>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="mt-1 bg-brand-red rounded-full p-1"><i data-lucide="check" class="w-4 h-4 text-white"></i></div>
+                                <p class="text-gray-200 text-lg leading-relaxed" data-i18n="srv-3">Private Legal Matters (Specialized support tailored for foreign nationals requesting legal assistance for private affairs in Indonesia)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 bg-white border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-16">
+                    <!-- Left: Contact Details -->
+                    <div class="lg:w-5/12">
+                        <h2 class="text-sm font-bold tracking-widest text-brand-red uppercase mb-2" data-i18n="contact-subtitle">Reach Out</h2>
+                        <h3 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6" data-i18n="contact-title">Contact Us</h3>
+                        <p class="text-gray-600 leading-relaxed mb-10 text-lg" data-i18n="contact-desc">
+                            Let us help you achieve your strategic objectives. Reach out to our team today for a confidential consultation.
+                        </p>
+
+                        <div class="space-y-8">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <i data-lucide="map-pin" class="w-6 h-6 text-brand-red"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-bold text-gray-900" data-i18n="contact-office">Corporate Office</h4>
+                                    <p class="text-gray-600 mt-1">Office 8, 12th Floor<br>Jl. Senopati Raya No. 8b<br>Jakarta 12190 - Indonesia</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <i data-lucide="mail" class="w-6 h-6 text-brand-red"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-bold text-gray-900" data-i18n="contact-email">Email Inquiries</h4>
+                                    <a href="mailto:konsultasibisnisstrategis@gmail.com" class="text-gray-600 hover:text-brand-red mt-1 block break-all">konsultasibisnisstrategis@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <i data-lucide="phone" class="w-6 h-6 text-brand-red"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-bold text-gray-900" data-i18n="contact-phone">Direct Lines</h4>
+                                    <p class="text-gray-600 mt-1 space-y-1">
+                                        <a href="tel:+628117322802" class="block hover:text-brand-red">+62 811 7322 802 (Mrs. Rinne)</a>
+                                        <a href="tel:+622129333122" class="block hover:text-brand-red">+62 21 29333122 (Corporate Office)</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Formal Form -->
+                    <div class="lg:w-7/12">
+                        <div class="bg-brand-gray p-8 md:p-10 border border-gray-200">
+                            <h4 class="text-2xl font-serif font-bold text-gray-900 mb-6" data-i18n="form-title">Send an Inquiry</h4>
+                            <form id="inquiryForm" class="space-y-6" onsubmit="sendEmail(event)">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="form-name">Full Name</label>
+                                        <input type="text" id="inq-name" required class="w-full px-4 py-3 border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none transition-colors" placeholder="John Doe">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="form-email">Email Address</label>
+                                        <input type="email" id="inq-email" required class="w-full px-4 py-3 border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none transition-colors" placeholder="john@company.com">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="form-org">Organization / Company</label>
+                                    <input type="text" id="inq-org" required class="w-full px-4 py-3 border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none transition-colors" placeholder="Your Company Ltd.">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2" data-i18n="form-message">Message Details</label>
+                                    <textarea rows="4" id="inq-message" required class="w-full px-4 py-3 border border-gray-300 focus:border-brand-red focus:ring-1 focus:ring-brand-red outline-none transition-colors resize-none" placeholder="Please describe your strategic inquiry..."></textarea>
+                                </div>
+                                <div>
+                                    <button type="submit" class="bg-brand-black text-white px-8 py-4 font-bold tracking-wide hover:bg-brand-red transition-colors duration-300 w-full md:w-auto uppercase text-sm" data-i18n="form-submit">
+                                        Submit Inquiry
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expertise Modal -->
+        <div id="expertise-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+            <!-- Backdrop -->
+            <div class="absolute inset-0 bg-brand-dark/80 backdrop-blur-sm" onclick="closeModal()"></div>
+            <!-- Modal Content -->
+            <div class="bg-white rounded-2xl w-11/12 max-w-lg relative z-10 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="modal-panel">
+                <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-brand-red hover:text-white transition-colors focus:outline-none">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                <div class="p-8 md:p-10">
+                    <div id="modal-icon" class="w-16 h-16 bg-red-50 text-brand-red rounded-xl flex items-center justify-center mb-6">
+                        <!-- Icon akan diinjeksi disini -->
+                    </div>
+                    <h3 id="modal-title" class="text-2xl font-serif font-bold text-gray-900 mb-4">Title</h3>
+                    <div class="w-12 h-1 bg-brand-red mb-6"></div>
+                    <p id="modal-desc" class="text-gray-600 leading-relaxed text-lg">Description goes here...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-black text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center md:items-end">
+                <!-- Bagian Kiri Atas -->
+                <div class="text-center md:text-left w-full md:w-auto">
+                    <!-- Footer Logo (Horizontal) -->
+                    <img src="KBS-footerH.png" alt="PT. KBS Logo" class="h-10 md:h-12 w-auto mb-4 mx-auto md:mx-0 object-contain" onerror="this.outerHTML='<h2 class=\'text-2xl font-serif font-bold\'>PT. KBS</h2>';">
+                    <p class="text-gray-400 text-sm" data-i18n="footer-tagline">Empowering Your Strategic Vision in Indonesia</p>
+                </div>
+                
+                <!-- Bagian Kanan Atas -->
+                <div class="flex flex-col items-center md:items-end w-full md:w-auto mt-8 md:mt-0">
+                    <a href="#home" class="text-gray-400 hover:text-brand-red transition-colors">
+                        <span class="sr-only">Home</span>
+                        <i data-lucide="arrow-up-circle" class="w-8 h-8"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Garis pemisah lebar penuh (Warna disamakan) -->
+            <div class="w-full h-px bg-gray-500/60 my-8"></div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm text-center md:text-left mb-4 md:mb-0">&copy; <span id="current-year"></span> PT Konsultasi Bisnis Strategis. <span data-i18n="footer-rights">All rights reserved.</span></p>
+                <p class="text-sm tracking-wide text-gray-500 font-light text-center md:text-right" data-i18n="footer-confidential">Strictly Confidential & Proprietary</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Global Variable to track active language
+        let currentLang = 'en';
+
+        // Translation Dictionary
+        const translations = {
+            'en': {
+                'nav-home': 'Home',
+                'nav-about': 'About Us',
+                'nav-expertise': 'Our Expertise',
+                'nav-partners': 'Partners',
+                'nav-contact': 'Contact',
+                
+                'hero-title': 'Empowering Your <span class="text-brand-red">Strategic</span> Vision in Indonesia',
+                'hero-desc-1': 'PT Konsultasi Bisnis Strategis (PT. KBS) is a premier, Indonesian-owned consultancy firm dedicated to navigating complex strategic issues at the highest echelons of business. We serve as a trusted advisor to both governmental and non-governmental entities, bridging gaps and unlocking potential within the dynamic Indonesian market.',
+                'hero-desc-2': 'KBS is active in the fields of strategic business consultancy, strategic economic consultancy (including banking e.g. Credit Investment) and strategic political consultancy.',
+                'hero-desc-3': 'Our focus is to support foreign Companies, mainly multi-national Companies, that are leading in their business sector in the world market.',
+                
+                'about-subtitle': 'Who We Are',
+                'about-title': 'About Us',
+                'about-desc': 'Operational since January 1, 2025, PT. KBS was founded on the principles of excellence, integrity, and profound market insight. Our firm is led by a distinguished board of Shareholders and Directors, all of whom possess advanced degrees from world-renowned universities in the United States and the United Kingdom. This exceptional blend of global perspective and deep local expertise empowers us to deliver world-class advisory services tailored to the unique landscape of Indonesia.',
+                
+                'expertise-subtitle': 'What We Do',
+                'expertise-title': 'Our Expertise',
+                'expertise-desc': 'We are a market-independent consultancy, providing strategic advisory services across a diverse spectrum of business fields. Our mission is to support both domestic Indonesian enterprises and international corporations, leading in their business field with global existence, looking to thrive in the Indonesian market. Our key sectors of expertise include, but are not limited to:',
+                
+                'sec-1': 'Agriculture',
+                'sec-2': 'Food Supply Industry',
+                'sec-3': 'Animal Nutrition',
+                'sec-4': 'Fishery & Maritime',
+                'sec-5': 'Public Infrastructure',
+                'sec-6': 'Law & Legal Services',
+                'sec-7': 'Banking & Financial Services',
+                'sec-8': 'Information Technology (IT), & Internet of Things (IoT)',
+                'sec-9': 'Digital Transformation, Professional Web & Software Solutions',
+                'sec-10': 'Telecommunications',
+                'sec-11': 'Oil & Gas',
+                'sec-12': 'Defense & Military Equipment',
+
+                // Expertise Descriptions
+                'desc-1': 'We provide strategic consulting for modern farming, supply chain optimization, and the integration of sustainable agricultural practices to maximize both yield and global market reach.',
+                'desc-2': 'Our experts offer end-to-end advisory on food security, robust distribution networks, quality control measures, and regulatory compliance within the complex food and beverage sector.',
+                'desc-3': 'We offer deep expertise in the research, development, sourcing, and commercialization of advanced animal feed and nutritional supplements vital for livestock health and productivity.',
+                'desc-4': 'Navigating the blue economy, we provide strategic guidance for maritime logistics, sustainable aquaculture, port management, and compliance with intricate international maritime regulations.',
+                'desc-5': 'We advise on large-scale public-private partnerships (PPP), urban development frameworks, and the comprehensive lifecycle management of critical national infrastructure projects.',
+                'desc-6': 'Working seamlessly with our partners, we deliver comprehensive legal strategies, corporate governance frameworks, and stringent risk mitigation tailored for foreign entities in Indonesia.',
+                'desc-7': 'Our financial consultants specialize in capital structuring, credit investment analysis, fintech integration, and navigating the rapidly evolving financial regulatory landscape.',
+                'desc-8': 'We develop strategic roadmaps for enterprise IT architecture, enterprise IoT deployment, and leveraging big data to secure a competitive business advantage in the digital age.',
+                'desc-9': 'We guide organizations through holistic digital transformations, recommending bespoke software solutions, business process automation, and seamless workflow digitization.',
+                'desc-10': 'Our team advises on telecommunications infrastructure expansion, spectrum strategy, digital connectivity enhancement, and navigating telecom policies in emerging markets.',
+                'desc-11': 'We provide elite strategic consulting for both upstream and downstream operations, energy transition planning, asset optimization, and industry regulatory compliance.',
+                'desc-12': 'We offer highly specialized advisory for defense procurement, strategic offset agreements, compliance with military trade regulations, and forging defense industry partnerships.',
+                
+                'partner-subtitle': 'Collaboration',
+                'partner-title': 'Our Strategic Partner (Legal Services)',
+                'partner-desc': 'To provide comprehensive and seamless solutions for our clients, PT. KBS is proud to partner with the Indonesian Firm <a href="https://nhplaw.com" target="_blank" class="text-white font-bold hover:underline transition-all">Nusantara Harman & Partners (NHP)</a>. This esteemed law firm provides extensive legal coverage for both Indonesian and foreign companies operating in the region. Their highly specialized services include:',
+                'srv-1': 'Corporate Due Diligence & In-depth Investigations',
+                'srv-2': 'Strategic Conflict Management of any kind',
+                'srv-3': 'Private Legal Matters (Specialized support tailored for foreign nationals requesting legal assistance for private affairs in Indonesia)',
+                
+                'contact-title': 'Contact Us',
+                'contact-desc': 'Let us help you achieve your strategic objectives. Reach out to our team today for a confidential consultation.',
+                'contact-subtitle': 'Reach Out',
+                'contact-office': 'Corporate Office',
+                'contact-email': 'Email Inquiries',
+                'contact-phone': 'Direct Lines',
+                
+                'form-title': 'Send an Inquiry',
+                'form-name': 'Full Name',
+                'form-email': 'Email Address',
+                'form-org': 'Organization / Company',
+                'form-message': 'Message Details',
+                'form-submit': 'Submit Inquiry',
+                
+                'footer-tagline': 'Empowering Your Strategic Vision in Indonesia',
+                'footer-rights': 'All rights reserved.',
+                'footer-confidential': 'Strictly Confidential & Proprietary'
+            },
+            'id': {
+                'nav-home': 'Beranda',
+                'nav-about': 'Tentang Kami',
+                'nav-expertise': 'Keahlian Kami',
+                'nav-partners': 'Mitra',
+                'nav-contact': 'Kontak',
+                
+                'hero-title': 'Memberdayakan Visi <span class="text-brand-red">Strategis</span> Anda di Indonesia',
+                'hero-desc-1': 'PT Konsultasi Bisnis Strategis (PT. KBS) adalah firma konsultasi terkemuka milik Indonesia yang berdedikasi untuk menavigasi isu-isu strategis kompleks di eselon tertinggi dunia bisnis. Kami melayani sebagai penasihat tepercaya bagi entitas pemerintah maupun non-pemerintah, menjembatani kesenjangan dan membuka potensi dalam pasar Indonesia yang dinamis.',
+                'hero-desc-2': 'KBS aktif di bidang konsultasi bisnis strategis, konsultasi ekonomi strategis (termasuk perbankan, mis. Investasi Kredit) dan konsultasi politik strategis.',
+                'hero-desc-3': 'Fokus kami adalah untuk mendukung Perusahaan asing, terutama Perusahaan multinasional, yang memimpin dalam sektor bisnis mereka di pasar dunia.',
+                
+                'about-subtitle': 'Siapa Kami',
+                'about-title': 'Tentang Kami',
+                'about-desc': 'Beroperasi sejak 1 Januari 2025, PT. KBS didirikan berdasarkan prinsip keunggulan, integritas, dan wawasan pasar yang mendalam. Firma kami dipimpin oleh jajaran Pemegang Saham dan Direktur terkemuka, yang semuanya memiliki gelar lanjutan dari universitas-universitas ternama di Amerika Serikat dan Inggris. Perpaduan luar biasa antara perspektif global dan keahlian lokal yang mendalam ini memberdayakan kami untuk memberikan layanan konsultasi kelas dunia yang disesuaikan dengan lanskap unik Indonesia.',
+                
+                'expertise-subtitle': 'Apa Yang Kami Lakukan',
+                'expertise-title': 'Keahlian Kami',
+                'expertise-desc': 'Kami adalah konsultan independen, menyediakan layanan penasihat strategis di berbagai bidang bisnis. Misi kami adalah untuk mendukung perusahaan domestik Indonesia maupun perusahaan multinasional, yang menjadi pemimpin global di bidangnya, yang ingin berkembang di pasar Indonesia. Sektor keahlian utama kami meliputi, namun tidak terbatas pada:',
+                
+                'sec-1': 'Pertanian',
+                'sec-2': 'Industri Pasokan Makanan',
+                'sec-3': 'Nutrisi Hewan',
+                'sec-4': 'Perikanan & Maritim',
+                'sec-5': 'Infrastruktur Publik',
+                'sec-6': 'Hukum & Layanan Hukum',
+                'sec-7': 'Perbankan & Layanan Keuangan',
+                'sec-8': 'Teknologi Informasi (TI) & Internet of Things (IoT)',
+                'sec-9': 'Transformasi Digital, Solusi Web & Perangkat Lunak Profesional',
+                'sec-10': 'Telekomunikasi',
+                'sec-11': 'Minyak & Gas',
+                'sec-12': 'Pertahanan & Peralatan Militer',
+
+                // Deskripsi Keahlian
+                'desc-1': 'Kami menyediakan konsultasi strategis untuk pertanian modern, optimalisasi rantai pasok, dan integrasi praktik pertanian berkelanjutan guna memaksimalkan hasil dan jangkauan pasar global.',
+                'desc-2': 'Para ahli kami menawarkan saran komprehensif tentang ketahanan pangan, jaringan distribusi yang kuat, tindakan pengendalian mutu, dan kepatuhan regulasi dalam sektor makanan dan minuman yang kompleks.',
+                'desc-3': 'Kami menawarkan keahlian mendalam dalam penelitian, pengembangan, pengadaan, dan komersialisasi pakan ternak lanjutan serta suplemen nutrisi yang vital untuk kesehatan dan produktivitas ternak.',
+                'desc-4': 'Menavigasi ekonomi biru, kami memberikan panduan strategis untuk logistik maritim, akuakultur berkelanjutan, manajemen pelabuhan, dan kepatuhan terhadap regulasi maritim internasional yang rumit.',
+                'desc-5': 'Kami memberikan saran mengenai kemitraan pemerintah-badan usaha (KPBU) skala besar, kerangka pengembangan perkotaan, dan manajemen siklus hidup komprehensif untuk proyek infrastruktur nasional yang kritis.',
+                'desc-6': 'Bekerja sama secara mulus dengan mitra kami, kami menyajikan strategi hukum komprehensif, kerangka tata kelola perusahaan, dan mitigasi risiko yang disesuaikan secara khusus untuk entitas asing di Indonesia.',
+                'desc-7': 'Konsultan keuangan kami berfokus pada restrukturisasi modal, analisis investasi kredit, integrasi tekfin (fintech), dan navigasi lanskap regulasi keuangan yang terus dan cepat berkembang.',
+                'desc-8': 'Kami mengembangkan peta jalan strategis untuk arsitektur TI perusahaan, implementasi IoT berskala besar, dan pemanfaatan data besar untuk mengamankan keunggulan bisnis kompetitif di era digital.',
+                'desc-9': 'Kami membimbing organisasi melalui transformasi digital holistik, merekomendasikan solusi perangkat lunak khusus, otomatisasi proses bisnis, dan digitalisasi alur kerja yang mulus.',
+                'desc-10': 'Tim kami memberikan saran tentang perluasan infrastruktur telekomunikasi, strategi spektrum, peningkatan konektivitas digital, dan navigasi kebijakan telekomunikasi di pasar negara berkembang.',
+                'desc-11': 'Kami menyediakan konsultasi strategis elit untuk operasi hulu dan hilir, perencanaan transisi energi, optimalisasi aset, dan kepatuhan regulasi industri.',
+                'desc-12': 'Kami menawarkan layanan penasihat yang sangat khusus untuk pengadaan pertahanan, perjanjian imbal dagang strategis, kepatuhan regulasi perdagangan militer, dan pembentukan kemitraan industri pertahanan.',
+                
+                'partner-subtitle': 'Kolaborasi',
+                'partner-title': 'Mitra Strategis Kami (Layanan Hukum)',
+                'partner-desc': 'Untuk memberikan solusi yang komprehensif dan mulus bagi klien kami, PT. KBS dengan bangga bermitra dengan Firma Indonesia <a href="https://nhplaw.com" target="_blank" class="text-white font-bold hover:underline transition-all">Nusantara Harman & Partners (NHP)</a>. Firma hukum terkemuka ini memberikan cakupan hukum yang luas untuk perusahaan Indonesia dan asing yang beroperasi di wilayah ini. Layanan khusus mereka meliputi:',
+                'srv-1': 'Uji Tuntas Perusahaan & Investigasi Mendalam',
+                'srv-2': 'Manajemen Konflik Strategis dari segala jenis',
+                'srv-3': 'Masalah Hukum Pribadi (Dukungan khusus yang disesuaikan untuk warga negara asing yang meminta bantuan hukum untuk urusan pribadi di Indonesia)',
+                
+                'contact-title': 'Hubungi Kami',
+                'contact-desc': 'Mari kami bantu Anda mencapai tujuan strategis Anda. Hubungi tim kami hari ini untuk konsultasi rahasia.',
+                'contact-subtitle': 'Kirim Pesan',
+                'contact-office': 'Kantor Pusat',
+                'contact-email': 'Pertanyaan Email',
+                'contact-phone': 'Saluran Langsung',
+
+                'form-title': 'Kirim Pertanyaan',
+                'form-name': 'Nama Lengkap',
+                'form-email': 'Alamat Email',
+                'form-org': 'Organisasi / Perusahaan',
+                'form-message': 'Detail Pesan',
+                'form-submit': 'Kirim Pertanyaan',
+                
+                'footer-tagline': 'Memberdayakan Visi Strategis Anda di Indonesia',
+                'footer-rights': 'Hak cipta dilindungi undang-undang.',
+                'footer-confidential': 'Sangat Rahasia & Eksklusif'
+            }
+        };
+
+        // Fungsi Tombol Bahasa (Bergantian/Toggle EN - ID)
+        function toggleLanguage() {
+            // Tukar bahasa saat ini
+            currentLang = currentLang === 'en' ? 'id' : 'en';
+            
+            // Ubah teks di tombol menjadi bahasa sebaliknya agar pengguna tahu opsi selanjutnya
+            const btnText = document.getElementById('lang-btn-text');
+            btnText.textContent = currentLang === 'en' ? 'EN' : 'ID';
+
+            // Update semua elemen dengan data-i18n
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+
+            // Re-kalkulasi indicator posisi karena panjang teks mungkin berubah
+            setTimeout(() => { window.dispatchEvent(new Event('scroll')); }, 100);
+        }
+
+        // 1. Setup Tahun Otomatis di Footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 2. Animasi Scroll (Fade In Up & Stagger Effect)
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            let delayCounter = 0;
+            let delayTimeout;
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.classList.contains('stagger-card')) {
+                            entry.target.style.transitionDelay = `${delayCounter * 150}ms`;
+                            delayCounter++;
+                            clearTimeout(delayTimeout);
+                            delayTimeout = setTimeout(() => { delayCounter = 0; }, 100);
+                        }
+
+                        setTimeout(() => { entry.target.classList.add('active'); }, 10);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('#about > div, #partners > div, #contact .lg\\:w-7\\/12').forEach(el => {
+                el.classList.add('reveal-element');
+                observer.observe(el);
+            });
+            
+            // Animasi Khusus untuk Hero Title (Kiri ke Kanan Mulus)
+            document.querySelectorAll('#home h1').forEach(el => {
+                el.classList.add('reveal-left');
+                observer.observe(el);
+            });
+
+            document.querySelectorAll('#expertise .text-center, #contact .text-center').forEach(el => {
+                el.classList.add('reveal-element');
+                observer.observe(el);
+            });
+
+            document.querySelectorAll('#home p, #home .w-20, #expertise .grid > div, #partners .space-y-4 > div, #contact .space-y-8 > div').forEach(item => {
+                item.classList.add('reveal-element', 'stagger-card');
+                observer.observe(item);
+            });
+        });
+
+        // 3. Efek Scroll Menu Header (ScrollSpy, Shrink & Sliding Indicator)
+        window.addEventListener('scroll', () => {
+            const mainHeader = document.getElementById('main-header');
+            const headerContainer = document.getElementById('header-container');
+            const headerLogo = document.getElementById('header-logo');
+            const headerText = document.getElementById('header-text');
+            
+            // 3A. Header Shrink & Transparansi
+            if (window.scrollY > 50) {
+                mainHeader.classList.remove('bg-white');
+                mainHeader.classList.add('bg-white/50', 'backdrop-blur-md');
+                
+                headerContainer.classList.remove('h-24');
+                headerContainer.classList.add('h-16');
+
+                if(headerLogo) { headerLogo.classList.remove('h-16'); headerLogo.classList.add('h-10'); }
+                if(headerText) { headerText.classList.remove('text-sm'); headerText.classList.add('text-xs'); }
+            } else {
+                mainHeader.classList.remove('bg-white/50', 'backdrop-blur-md');
+                mainHeader.classList.add('bg-white');
+                
+                headerContainer.classList.add('h-24');
+                headerContainer.classList.remove('h-16');
+
+                if(headerLogo) { headerLogo.classList.add('h-16'); headerLogo.classList.remove('h-10'); }
+                if(headerText) { headerText.classList.add('text-sm'); headerText.classList.remove('text-xs'); }
+            }
+
+            // 3B. ScrollSpy untuk Navigasi Kiri ke Kanan
+            let currentSection = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - 150)) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            // 3C. Update warna teks & menggeser kotak highlight merah (Sliding Indicator)
+            const desktopNavLinks = document.querySelectorAll('#desktop-nav a');
+            const navIndicator = document.getElementById('nav-indicator');
+            let isAnyActive = false;
+
+            desktopNavLinks.forEach(link => {
+                // Default un-active state
+                link.classList.remove('text-white', 'font-bold');
+                link.classList.add('text-gray-700', 'font-medium');
+                
+                // Active state
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.remove('text-gray-700', 'font-medium');
+                    link.classList.add('text-white', 'font-bold');
+                    
+                    // Geser Indicator merah ke link ini secara presisi tengah
+                    navIndicator.style.width = `${link.offsetWidth}px`;
+                    navIndicator.style.height = `${link.offsetHeight}px`;
+                    navIndicator.style.transform = `translate(${link.offsetLeft}px, ${link.offsetTop}px)`;
+                    navIndicator.style.opacity = '1';
+                    isAnyActive = true;
+                }
+            });
+
+            // Sembunyikan indicator jika kita berada diluar section (misal paling atas/bawah sekali)
+            if(!isAnyActive) navIndicator.style.opacity = '0';
+        });
+
+        // Trigger scroll event untuk set posisi indicator di awal
+        window.addEventListener('load', () => { window.dispatchEvent(new Event('scroll')); });
+
+        // 4. Fungsi Kirim Email (mailto)
+        function sendEmail(event) {
+            event.preventDefault();
+            const name = document.getElementById('inq-name').value;
+            const email = document.getElementById('inq-email').value;
+            const org = document.getElementById('inq-org').value;
+            const message = document.getElementById('inq-message').value;
+
+            const targetEmail = "konsultasibisnisstrategis@gmail.com";
+            const subject = `Strategic Inquiry from ${name} - ${org}`;
+            const body = `Sender Name: ${name}\nEmail Address: ${email}\nOrganization: ${org}\n\nMessage Details:\n----------------------------------\n${message}\n----------------------------------`;
+
+            const mailtoLink = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        }
+
+        // 5. Modal Controller
+        function openModal(id, iconName) {
+            const titleText = translations[currentLang][`sec-${id}`];
+            const descText = translations[currentLang][`desc-${id}`];
+
+            document.getElementById('modal-title').textContent = titleText;
+            document.getElementById('modal-desc').textContent = descText;
+            document.getElementById('modal-icon').innerHTML = `<i data-lucide="${iconName}" class="w-8 h-8"></i>`;
+            lucide.createIcons();
+
+            const modal = document.getElementById('expertise-modal');
+            const panel = document.getElementById('modal-panel');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                panel.classList.remove('scale-95', 'opacity-0');
+                panel.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('expertise-modal');
+            const panel = document.getElementById('modal-panel');
+            
+            panel.classList.remove('scale-100', 'opacity-100');
+            panel.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // 6. Preloader Logic 
+        setTimeout(() => {
+            const preloader = document.getElementById('preloader');
+            const body = document.getElementById('body-content');
+            if(preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    if(body) body.classList.remove('overflow-hidden');
+                }, 500);
+            }
+        }, 500); 
+
+    </script>
+</body>
+</html>
