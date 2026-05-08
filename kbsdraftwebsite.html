@@ -97,18 +97,23 @@
     <!-- Header & Navigation -->
     <header class="fixed w-full top-0 bg-white shadow-md z-50 transition-all duration-500" id="main-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-24 transition-all duration-500" id="header-container">
+            <div class="flex justify-between items-center h-20 md:h-24 transition-all duration-500 relative" id="header-container">
                 
-                <!-- Left: Locale Toggle Button (Single Button) -->
-                <div class="flex items-center">
-                    <button onclick="toggleLanguage()" class="flex items-center space-x-2 bg-gray-100 hover:bg-red-50 text-gray-700 hover:text-brand-red px-3 py-1.5 rounded-full transition-all duration-300 group">
-                        <i data-lucide="globe" class="w-4 h-4 group-hover:rotate-12 transition-transform duration-300"></i>
-                        <span id="lang-btn-text" class="text-xs font-bold tracking-wider">EN</span>
+                <!-- Left: Menu Burger & Locale Toggle Button -->
+                <div class="flex items-center space-x-2 md:space-x-4 z-20">
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-brand-red focus:outline-none p-1">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <!-- Locale Toggle -->
+                    <button onclick="toggleLanguage()" class="flex items-center space-x-1 sm:space-x-2 bg-gray-100 hover:bg-red-50 text-gray-700 hover:text-brand-red px-2 py-1 sm:px-3 sm:py-1.5 rounded-full transition-all duration-300 group">
+                        <i data-lucide="globe" class="w-4 h-4 sm:w-4 sm:h-4 group-hover:rotate-12 transition-transform duration-300"></i>
+                        <span id="lang-btn-text" class="text-[10px] sm:text-xs font-bold tracking-wider">EN</span>
                     </button>
                 </div>
 
-                <!-- Center: Navigation (Hidden on mobile) -->
-                <nav class="hidden md:flex space-x-1 relative items-center" id="desktop-nav">
+                <!-- Center: Navigation (Desktop) -->
+                <nav class="hidden md:flex space-x-1 relative items-center z-10" id="desktop-nav">
                     <!-- Sliding Background Indicator -->
                     <div id="nav-indicator" class="absolute top-0 left-0 bg-brand-red rounded-md transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] z-0 opacity-0 pointer-events-none"></div>
                     
@@ -119,33 +124,31 @@
                     <a href="#contact" class="relative z-10 px-4 py-1.5 text-sm text-gray-700 font-medium hover:text-brand-red transition-colors duration-500" data-i18n="nav-contact">Contact</a>
                 </nav>
 
-                <!-- Right: Header Logo with Text -->
-                <div class="flex-shrink-0 flex items-center h-full py-2">
-                    <a href="#home" class="flex items-center space-x-3 group text-left">
-                        <img id="header-logo" class="h-16 w-auto object-contain transition-all duration-500" src="KBS-logo.png" alt="PT. KBS Logo" onerror="this.src='https://via.placeholder.com/150x60?text=PT.+KBS';">
-                        <div class="hidden sm:block border-l-2 border-gray-300 pl-3 h-full flex flex-col justify-center transition-all duration-500" id="header-text-container">
-                            <h1 id="header-text" class="text-sm font-bold leading-tight text-gray-800 transition-all duration-500" style="font-family: 'Poppins', sans-serif;">PT. Konsultasi<br>Bisnis Strategis</h1>
-                        </div>
-                    </a>
+                <!-- Center: Active Page Name (Mobile Only) -->
+                <div class="md:hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 whitespace-nowrap text-center pointer-events-none">
+                    <span id="mobile-active-text" class="text-[11px] font-bold text-gray-800 tracking-wider uppercase transition-opacity duration-300">HOME</span>
                 </div>
 
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-brand-red focus:outline-none">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
+                <!-- Right: Header Logo with Text -->
+                <div class="flex-shrink-0 flex items-center h-full py-2 z-20">
+                    <a href="#home" class="flex items-center space-x-1.5 sm:space-x-3 group text-left">
+                        <img id="header-logo" class="h-9 md:h-16 w-auto object-contain transition-all duration-500" src="KBS-logo.png" alt="PT. KBS Logo" onerror="this.src='https://via.placeholder.com/150x60?text=PT.+KBS';">
+                        <div class="block border-l-2 border-gray-300 pl-1.5 sm:pl-3 h-full flex flex-col justify-center transition-all duration-500" id="header-text-container">
+                            <h1 id="header-text" class="text-[9px] md:text-sm font-bold leading-tight text-gray-800 transition-all duration-500" style="font-family: 'Poppins', sans-serif;">PT. Konsultasi<br>Bisnis Strategis</h1>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 transition-all duration-300">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
-                <a href="#home" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-home">Home</a>
-                <a href="#about" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-about">About Us</a>
-                <a href="#expertise" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-expertise">Our Expertise</a>
-                <a href="#partners" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-partners">Partners</a>
-                <a href="#contact" class="block px-3 py-2 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-contact">Contact</a>
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 transition-all duration-300 shadow-lg absolute w-full left-0">
+            <div class="px-4 pt-2 pb-4 space-y-1 sm:px-6 text-center">
+                <a href="#home" class="block px-3 py-3 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-home">Home</a>
+                <a href="#about" class="block px-3 py-3 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-about">About Us</a>
+                <a href="#expertise" class="block px-3 py-3 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-expertise">Our Expertise</a>
+                <a href="#partners" class="block px-3 py-3 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-partners">Partners</a>
+                <a href="#contact" class="block px-3 py-3 rounded-md text-gray-700 font-medium hover:text-brand-red hover:bg-red-50 transition-all" data-i18n="nav-contact">Contact</a>
             </div>
         </div>
     </header>
@@ -436,16 +439,16 @@
     <!-- Footer -->
     <footer class="bg-brand-black text-white py-12 border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center md:items-end">
-                <!-- Bagian Kiri Atas -->
-                <div class="text-center md:text-left w-full md:w-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end">
+                <!-- Bagian Kiri Atas (Tetap Rata Kiri di Semua Perangkat) -->
+                <div class="text-left w-full md:w-auto">
                     <!-- Footer Logo (Horizontal) -->
-                    <img src="KBS-footerH.png" alt="PT. KBS Logo" class="h-10 md:h-12 w-auto mb-4 mx-auto md:mx-0 object-contain" onerror="this.outerHTML='<h2 class=\'text-2xl font-serif font-bold\'>PT. KBS</h2>';">
+                    <img src="KBS-footerH.png" alt="PT. KBS Logo" class="h-10 md:h-12 w-auto mb-4 ml-0 object-contain" onerror="this.outerHTML='<h2 class=\'text-2xl font-serif font-bold\'>PT. KBS</h2>';">
                     <p class="text-gray-400 text-sm" data-i18n="footer-tagline">Empowering Your Strategic Vision in Indonesia</p>
                 </div>
                 
                 <!-- Bagian Kanan Atas -->
-                <div class="flex flex-col items-center md:items-end w-full md:w-auto mt-8 md:mt-0">
+                <div class="flex flex-col items-start md:items-end w-full md:w-auto mt-8 md:mt-0">
                     <a href="#home" class="text-gray-400 hover:text-brand-red transition-colors">
                         <span class="sr-only">Home</span>
                         <i data-lucide="arrow-up-circle" class="w-8 h-8"></i>
@@ -453,12 +456,16 @@
                 </div>
             </div>
 
-            <!-- Garis pemisah lebar penuh (Warna disamakan) -->
+            <!-- Garis pemisah lebar penuh -->
             <div class="w-full h-px bg-gray-500/60 my-8"></div>
 
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-500 text-sm text-center md:text-left mb-4 md:mb-0">&copy; <span id="current-year"></span> PT Konsultasi Bisnis Strategis. <span data-i18n="footer-rights">All rights reserved.</span></p>
-                <p class="text-sm tracking-wide text-gray-500 font-light text-center md:text-right" data-i18n="footer-confidential">Strictly Confidential & Proprietary</p>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <!-- Menambahkan line break (<br>) khusus mobile agar tidak terpotong -->
+                <p class="text-gray-500 text-sm text-left mb-4 md:mb-0 leading-relaxed">
+                    &copy; <span id="current-year"></span> PT Konsultasi Bisnis Strategis.<br class="block md:hidden"> 
+                    <span data-i18n="footer-rights">All rights reserved.</span>
+                </p>
+                <p class="text-sm tracking-wide text-gray-500 font-light text-left md:text-right" data-i18n="footer-confidential">Strictly Confidential & Proprietary</p>
             </div>
         </div>
     </footer>
@@ -718,22 +725,24 @@
             // 3A. Header Shrink & Transparansi
             if (window.scrollY > 50) {
                 mainHeader.classList.remove('bg-white');
-                mainHeader.classList.add('bg-white/50', 'backdrop-blur-md');
+                mainHeader.classList.add('bg-white/60', 'backdrop-blur-md');
                 
-                headerContainer.classList.remove('h-24');
-                headerContainer.classList.add('h-16');
+                headerContainer.classList.remove('h-20', 'md:h-24');
+                headerContainer.classList.add('h-14', 'md:h-16');
 
-                if(headerLogo) { headerLogo.classList.remove('h-16'); headerLogo.classList.add('h-10'); }
-                if(headerText) { headerText.classList.remove('text-sm'); headerText.classList.add('text-xs'); }
+                // Shrink Logo & Text
+                if(headerLogo) { headerLogo.classList.remove('h-9', 'md:h-16'); headerLogo.classList.add('h-7', 'md:h-10'); }
+                if(headerText) { headerText.classList.remove('text-[9px]', 'md:text-sm'); headerText.classList.add('text-[7px]', 'md:text-xs'); }
             } else {
-                mainHeader.classList.remove('bg-white/50', 'backdrop-blur-md');
+                mainHeader.classList.remove('bg-white/60', 'backdrop-blur-md');
                 mainHeader.classList.add('bg-white');
                 
-                headerContainer.classList.add('h-24');
-                headerContainer.classList.remove('h-16');
+                headerContainer.classList.add('h-20', 'md:h-24');
+                headerContainer.classList.remove('h-14', 'md:h-16');
 
-                if(headerLogo) { headerLogo.classList.add('h-16'); headerLogo.classList.remove('h-10'); }
-                if(headerText) { headerText.classList.add('text-sm'); headerText.classList.remove('text-xs'); }
+                // Expand Logo & Text
+                if(headerLogo) { headerLogo.classList.add('h-9', 'md:h-16'); headerLogo.classList.remove('h-7', 'md:h-10'); }
+                if(headerText) { headerText.classList.add('text-[9px]', 'md:text-sm'); headerText.classList.remove('text-[7px]', 'md:text-xs'); }
             }
 
             // 3B. ScrollSpy untuk Navigasi Kiri ke Kanan
@@ -766,11 +775,22 @@
                     navIndicator.style.transform = `translate(${link.offsetLeft}px, ${link.offsetTop}px)`;
                     navIndicator.style.opacity = '1';
                     isAnyActive = true;
+
+                    // Mengganti Teks Nama Halaman Aktif Khusus Mobile
+                    const mobileActiveText = document.getElementById('mobile-active-text');
+                    if(mobileActiveText) {
+                        mobileActiveText.textContent = link.textContent;
+                        mobileActiveText.style.opacity = '1';
+                    }
                 }
             });
 
             // Sembunyikan indicator jika kita berada diluar section (misal paling atas/bawah sekali)
-            if(!isAnyActive) navIndicator.style.opacity = '0';
+            if(!isAnyActive) {
+                navIndicator.style.opacity = '0';
+                const mobileActiveText = document.getElementById('mobile-active-text');
+                if(mobileActiveText) mobileActiveText.style.opacity = '0';
+            }
         });
 
         // Trigger scroll event untuk set posisi indicator di awal
