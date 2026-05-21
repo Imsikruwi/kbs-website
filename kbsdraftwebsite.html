@@ -30,6 +30,16 @@
     <meta name="twitter:description" content="Empowering Your Strategic Vision in Indonesia. Trusted advisory for multi-national companies and governmental entities.">
     <meta name="twitter:image" content="KBS_OG.png">
 
+    <!-- ==========================================
+         4. OPTIMASI PERFORMA & MOBILE UI
+         ========================================== -->
+    <meta name="robots" content="index, follow, mQax-image-preview:large">
+    <meta name="theme-color" content="#0F172A"> <!-- Warna gelap elegan untuk status bar HP Android -->
+    
+    <!-- Preconnect untuk mempercepat loading Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
 
@@ -151,11 +161,11 @@
                 <!-- Left: Menu Burger & Locale Toggle Button -->
                 <div class="flex items-center space-x-2 md:space-x-4 z-20">
                     <!-- Mobile menu button -->
-                    <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-brand-red focus:outline-none p-1">
+                    <button id="mobile-menu-btn" aria-label="Toggle Navigation Menu" class="md:hidden text-gray-700 hover:text-brand-red focus:outline-none p-1">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
                     <!-- Locale Toggle -->
-                    <button onclick="toggleLanguage()" class="flex items-center space-x-1 sm:space-x-2 bg-gray-100 hover:bg-red-50 text-gray-700 hover:text-brand-red px-2 py-1 sm:px-3 sm:py-1.5 rounded-full transition-all duration-300 group">
+                    <button onclick="toggleLanguage()" aria-label="Change Language" class="flex items-center space-x-1 sm:space-x-2 bg-gray-100 hover:bg-red-50 text-gray-700 hover:text-brand-red px-2 py-1 sm:px-3 sm:py-1.5 rounded-full transition-all duration-300 group">
                         <i data-lucide="globe" class="w-4 h-4 sm:w-4 sm:h-4 group-hover:rotate-12 transition-transform duration-300"></i>
                         <span id="lang-btn-text" class="text-[10px] sm:text-xs font-bold tracking-wider">EN</span>
                     </button>
@@ -232,7 +242,8 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row items-center gap-12">
                     <div class="w-full md:w-1/2">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Formal Corporate Boardroom" class="rounded-lg shadow-xl w-full object-cover h-[450px]">
+                        <!-- Ditambahkan loading="lazy" agar loading awal web jauh lebih cepat -->
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Formal Corporate Boardroom" loading="lazy" class="rounded-lg shadow-xl w-full object-cover h-[450px]">
                     </div>
                     <div class="w-full md:w-1/2">
                         <h2 class="text-sm font-bold tracking-wider text-brand-red uppercase mb-2" data-i18n="about-subtitle">Who We Are</h2>
@@ -519,7 +530,8 @@
     </footer>
 
     <!-- Back to Top Button (Mengambang) -->
-    <button id="back-to-top" class="fixed bottom-8 right-8 bg-brand-red text-white p-3 rounded-full shadow-xl opacity-0 translate-y-10 transition-all duration-500 z-50 hover:bg-red-800 hover:-translate-y-1 focus:outline-none pointer-events-none">
+    <!-- Ditambahkan aria-label untuk SEO & Disabilitas -->
+    <button id="back-to-top" aria-label="Scroll to top" class="fixed bottom-8 right-8 bg-brand-red text-white p-3 rounded-full shadow-xl opacity-0 translate-y-10 transition-all duration-500 z-50 hover:bg-red-800 hover:-translate-y-1 focus:outline-none pointer-events-none">
         <i data-lucide="arrow-up" class="w-6 h-6"></i>
     </button>
 
@@ -697,6 +709,9 @@
         // Fungsi Tombol Bahasa (Bergantian/Toggle EN - ID)
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'id' : 'en';
+            
+            // Ubah lang attribute pada tag html agar Google tahu bahasanya berubah
+            document.documentElement.lang = currentLang;
             
             const btnText = document.getElementById('lang-btn-text');
             btnText.textContent = currentLang === 'en' ? 'EN' : 'ID';
